@@ -1,4 +1,4 @@
-package com.basesdedatos.view;
+package com.basesdedatos.repository;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

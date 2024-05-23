@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.basesdedatos.config.DatabaseConnection;
+import com.basesdedatos.model.PuntosDemograficos;
 import com.basesdedatos.model.PuntosInteres;
 
 public class PuntosInteresRepository implements Repository<PuntosInteres> {
@@ -77,16 +78,7 @@ public class PuntosInteresRepository implements Repository<PuntosInteres> {
             statement.executeUpdate();
         }
     }
-    @Override
-    public Integer getMayorPoblacion(int poblacion) throws SQLException {
-        String sql = "select * from puntosdemograficos where poblacion > ?";
-        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
-            statement.setInt(1, poblacion);
-            statement.executeUpdate();
-        }
-        return 10;
-        /// implementar logica para guaradar la poblacon de arriba y devolverla
-    }
+   
 
     @Override
 public List<PuntosInteres> getFiltro(String filtro) throws SQLException {
@@ -140,6 +132,30 @@ public List<PuntosInteres> getFiltro(String filtro) throws SQLException {
         puntosInteres.setLongitud(resultSet.getString("Longitud"));
         puntosInteres.setDisponibilidad(resultSet.getString("Disponibilidad"));
         return puntosInteres;
+    }
+
+    @Override
+    public List<PuntosDemograficos> getPoblacion(int poblacion) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPoblacion'");
+    }
+
+    @Override
+    public List<PuntosDemograficos> getPointsByPopulation(int poblacion) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPointsByPopulation'");
+    }
+
+    @Override
+    public List<PuntosInteres> poblacionMenor(int poblacion, float nivelEducativo) throws SQLException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'poblacionMenor'");
+    }
+
+    @Override
+    public List<PuntosDemograficos> getMayorPoblacion(int poblacion) throws SQLException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getMayorPoblacion'");
     }
     
 
