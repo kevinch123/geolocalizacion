@@ -109,6 +109,30 @@ public List<PuntosInteres> getFiltro(String filtro) throws SQLException {
     }
     return resultados;
 }
+@Override
+public List<PuntosInteres> getDisponibilidad() throws SQLException {
+    List<PuntosInteres> resultados = new ArrayList<>();
+
+    String sqlTotal = "SELECT Disponibilidad, COUNT(*) AS total  FROM puntosdeinteres GROUP BY Disponibilidad;";
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlTotal);
+        ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+            String disponibilidad = resultSet.getString("Disponibilidad");
+            int totalDisponibles = resultSet.getInt("total");
+            
+            PuntosInteres puntosInteres = new PuntosInteres();
+            puntosInteres.setDisponibilidad(disponibilidad);
+            puntosInteres.setTotalNoDisponibles(totalDisponibles);
+            
+            resultados.add(puntosInteres);
+        }
+    }
+
+    return resultados;
+}
+
+
+
 
 
     @Override
@@ -141,6 +165,8 @@ public List<PuntosInteres> getFiltro(String filtro) throws SQLException {
         puntosInteres.setDisponibilidad(resultSet.getString("Disponibilidad"));
         return puntosInteres;
     }
+
+    
     
 
 }

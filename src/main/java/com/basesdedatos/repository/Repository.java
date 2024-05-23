@@ -12,7 +12,10 @@ public interface Repository<T> {
     void delete(Integer id) throws SQLException;
     Integer getMayorPoblacion(int poblacion) throws SQLException;
     List<T> getFiltro(String filtro) throws SQLException;
-    List<T> getLocalizacion(String localizacion) throws SQLException;
+    List<T> getLocalizacion(String localizacion) throws SQLException; 
+    List<T>  getDisponibilidad() throws SQLException;
+
+    
 
 
 

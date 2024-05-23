@@ -34,35 +34,37 @@ public class SwingApp extends JFrame {
         JButton addButton = new JButton("Agregar");
         JButton updateButton = new JButton("Actualizar");
         JButton deleteButton = new JButton("Eliminar");
-        JButton poblacion = new JButton("Buscar por > poblacion");
         JButton filtrar= new JButton("filtrar por tipo");
         JButton localizacion= new JButton("localizacion latitud,longitud");
+        JButton disponibilidad= new JButton("Verificacion de la disponibilidad");
+
 
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);
-        buttonPanel.add(poblacion);
         buttonPanel.add(filtrar);
         buttonPanel.add(localizacion);
+        buttonPanel.add(disponibilidad);
+
 
         add(buttonPanel, BorderLayout.SOUTH);
 
         puntosInteresRepository = new PuntosInteresRepository();
 
-        listPuntosInteres();
+        getAll();
 
-        poblacion.addActionListener(e -> {
+        filtrar.addActionListener(e -> {
             try {
-                getPoblacion();
+                getFiltro();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
-        filtrar.addActionListener(e -> {
+        disponibilidad.addActionListener(e -> {
             try {
-                getFiltro();
+                getDisponibilidad();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -100,21 +102,6 @@ public class SwingApp extends JFrame {
         });
     }
 
-    private void getPoblacion() throws SQLException {
-
-        JTextField poblacion = new JTextField();
-
-        Object[] fields = {
-            "poblacion int:", poblacion,
-        };
-        int result = JOptionPane.showConfirmDialog(this, fields, "Agregar punto de interés", JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION) {
-
-            int numberPoblacion = Integer.parseInt(poblacion.getText());
-
-             puntosInteresRepository.getMayorPoblacion(numberPoblacion);
-        }
-      }
       private void getFiltro() {
         String tipoFiltro = JOptionPane.showInputDialog(this, "Ingrese el tipo de filtro:", "Filtrar Puntos de Interés", JOptionPane.QUESTION_MESSAGE);
         if (tipoFiltro != null && !tipoFiltro.isEmpty()) {
@@ -152,6 +139,49 @@ public class SwingApp extends JFrame {
         }
     }
 
+    private void getAll() {
+        try {
+            List<PuntosInteres> puntosInteres = puntosInteresRepository.findAll();
+    
+            DefaultTableModel tableModel = new DefaultTableModel();
+            tableModel.addColumn("ID");
+            tableModel.addColumn("Nombre");
+            tableModel.addColumn("Disponibilidad");
+    
+            for (PuntosInteres puntoInteres : puntosInteres) {
+                Object[] dataRow = {
+                    puntoInteres.getID(),
+                    puntoInteres.getNombre(),
+                    puntoInteres.getDisponibilidad()
+                };
+                tableModel.addRow(dataRow);
+            }
+            puntosInteresTable.setModel(tableModel);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al obtener los puntos de interés", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void getDisponibilidad() {
+        try {
+            List<PuntosInteres> puntosInteres = puntosInteresRepository.getDisponibilidad();
+    
+            DefaultTableModel tableModel = new DefaultTableModel();
+            tableModel.addColumn("Total");
+            tableModel.addColumn("Disponibilidad");
+    
+            for (PuntosInteres puntoInteres : puntosInteres) {
+                Object[] dataRow = {
+                    puntoInteres.getTotalNoDisponibles(),
+                    puntoInteres.getDisponibilidad()
+                };
+                tableModel.addRow(dataRow);
+            }
+            puntosInteresTable.setModel(tableModel);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al obtener los puntos de interés", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     private void getlocalizacion() {
         try {
             List<PuntosInteres> puntosInteres = puntosInteresRepository.findAll();
@@ -309,4 +339,27 @@ public class SwingApp extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al obtener los puntos de interés", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    private void Contar() {
+        try {
+            List<PuntosInteres> puntosInteres = puntosInteresRepository.getDisponibilidad();
+
+            DefaultTableModel tableModel = new DefaultTableModel();
+            tableModel.addColumn("Disponibilidad");
+
+            for (PuntosInteres puntoInteres : puntosInteres) {
+                Object[] dataRow = {
+                    puntoInteres.getDisponibilidad()
+                };
+                tableModel.addRow(dataRow);
+            }
+            puntosInteresTable.setModel(tableModel);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al obtener los puntos de interés", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+
+
 }

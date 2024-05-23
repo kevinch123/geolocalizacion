@@ -70,6 +70,31 @@ public class PuntosInteres {
         Disponibilidad = disponibilidad;
     }
 
+    private int totalNoDisponibles;
+
+    // Constructor y otros métodos de la clase
+
+    public int getTotalNoDisponibles() {
+        return totalNoDisponibles;
+    }
+
+    public void setTotalNoDisponibles(int totalNoDisponibles) {
+        this.totalNoDisponibles = totalNoDisponibles;
+    }
+    private int totalDisponibles;
+
+    // Constructor y otros métodos de la clase
+
+    public int getTotalDisponibles() {
+        return totalDisponibles;
+    }
+
+    public void setTotalDisponibles(int totalNoDisponibles) {
+        this.totalDisponibles = totalDisponibles;
+    }
+
+    
+
     @Override
     public String toString() {
         return "PuntosInteres [ID=" + ID + ", Nombre=" + Nombre + ", Tipo=" + Tipo + ", Latitud=" + Latitud
